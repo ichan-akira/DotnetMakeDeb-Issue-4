@@ -1,0 +1,38 @@
+# Spec file options
+basepath: .
+outdir: .
+
+# Common directory variables
+APP_NAME = myappnameisverylong
+APP_NAME_SHORT = myapp # Workaround for https://github.com/ygoe/DotnetMakeDeb/issues/3
+
+SETUP_DIR = Setup\Linux
+INSTALLDIR = Files\INSTALLDIR
+PROGRAMDATA_CONFIG_DIR = Files\PROGRAMDATA_CONFIG_DIR 
+
+OPT_DIR = opt/{APP_NAME_SHORT}
+VAR_DIR = var/opt/{APP_NAME_SHORT}
+
+# Package control file
+package: {APP_NAME}
+version: 1.0.0.0
+architecture: amd64
+maintainer: John Doe <john.doe@email.com>
+homepage: https://john.doe.com/
+description: My App is created by John Doe.
+
+# Maintenance scripts
+preinst: {SETUP_DIR}\preinst text
+postinst: {SETUP_DIR}\postinst text
+prerm: {SETUP_DIR}\prerm text
+postrm: {SETUP_DIR}\postrm text
+
+# Startup scripts
+file: {SETUP_DIR}\{APP_NAME} etc/init.d/ 755
+
+# Application files
+file: {INSTALLDIR}\** {OPT_DIR}/ 755
+
+# Configuration
+conffile: {INSTALLDIR}\Configuration\** {OPT_DIR}/Configuration/ 755
+conffile: {PROGRAMDATA_CONFIG_DIR}\** {VAR_DIR}/ 755
